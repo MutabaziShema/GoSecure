@@ -5,3 +5,10 @@ dist
 .env
 .env.local
 .env.production.local
+
+# Vite temp files
+vite.config.js.timestamp-*
+
+# Old prototype (Vite app is the real source)
+GoSecure Landing Page.html
+gosecure-logo.png
