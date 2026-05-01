@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Zoho required scripts -->
-  <script src='https://static.zohocdn.com/zohodeskstatic/app/js/jqueryandencoder.ef05974972bf3bca1b87.js'></script>
+  <!-- Zoho required jQuery -->
+  <script src="https://static.zohocdn.com/zohodeskstatic/app/js/jqueryandencoder.ef05974972bf3bca1b87.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -144,26 +144,19 @@
     }
 
     /* ── Override Zoho form styles ── */
-    #zohoSupportWebToCase {
-      width: 100% !important;
-    }
+    #zohoSupportWebToCase { width: 100% !important; }
     #zohoSupportWebToCase table {
       width: 100% !important;
       border-collapse: separate;
       border-spacing: 0;
     }
-    .zsFormClass {
-      background: transparent !important;
-      width: 100% !important;
-    }
+    .zsFormClass { background: transparent !important; width: 100% !important; }
 
-    /* Title row — hidden (we have our own header) */
-    #zohoSupportWebToCase table tr:first-child td {
-      display: none;
-    }
+    /* Hide Zoho's own title row — we have our own header */
+    #zohoSupportWebToCase table tr:first-child td { display: none !important; }
 
     #zohoSupportWebToCase td {
-      padding: 0 0 18px 0 !important;
+      padding: 0 0 20px 0 !important;
       display: block !important;
       width: 100% !important;
     }
@@ -175,11 +168,11 @@
       color: #4A5568 !important;
     }
 
+    /* All text inputs and selects */
     #zohoSupportWebToCase input[type='text'],
     #zohoSupportWebToCase input[type='date'],
     #zohoSupportWebToCase select,
-    #zohoSupportWebToCase textarea,
-    #zohoSupportWebToCase input[name='zsWebFormCaptchaWord'] {
+    #zohoSupportWebToCase textarea {
       width: 100% !important;
       height: 44px !important;
       border: 1.5px solid #E5EAF0 !important;
@@ -196,25 +189,23 @@
     }
     #zohoSupportWebToCase input[type='text']:focus,
     #zohoSupportWebToCase input[type='date']:focus,
-    #zohoSupportWebToCase select:focus,
-    #zohoSupportWebToCase input[name='zsWebFormCaptchaWord']:focus {
+    #zohoSupportWebToCase select:focus {
       border-color: #00A86B !important;
       box-shadow: 0 0 0 3px rgba(0,168,107,0.12) !important;
       background: #fff !important;
     }
-    .manfieldbdr {
-      border-left: 2px solid #00A86B !important;
-    }
+    .manfieldbdr { border-left: 2px solid #00A86B !important; }
 
-    /* Pickup time row — keep selects inline */
+    /* Pickup time row — date + hour/min/ampm inline */
     #zohoSupportWebToCase input.wb_cusInput {
-      width: calc(100% - 190px) !important;
+      width: calc(100% - 196px) !important;
       display: inline-block !important;
     }
     .wb_selectDate {
-      width: 76px !important;
+      width: 72px !important;
       display: inline-block !important;
       margin-left: 6px !important;
+      padding: 0 6px !important;
     }
 
     /* Submit / Reset buttons */
@@ -228,11 +219,11 @@
       font-size: 15px !important;
       font-weight: 600 !important;
       cursor: pointer !important;
-      transition: background 0.2s, transform 0.15s !important;
       height: auto !important;
       width: auto !important;
+      transition: background 0.2s, transform 0.15s !important;
     }
-    #zsSubmitButton_1333745000000420191:hover {
+    #zsSubmitButton_1333745000000420191:hover:not(:disabled) {
       background: #009960 !important;
       transform: translateY(-1px) !important;
     }
@@ -254,23 +245,15 @@
       width: auto !important;
       transition: background 0.2s !important;
     }
-    input[type='button'].zsFontClass:hover {
-      background: #E5EAF0 !important;
-    }
+    input[type='button'].zsFontClass:hover { background: #E5EAF0 !important; }
 
-    /* Button row */
-    #zohoSupportWebToCase td[colspan='2'][align='center'] {
-      text-align: left !important;
-    }
+    /* Button row alignment */
+    #zohoSupportWebToCase td[colspan='2'][align='center'] { text-align: left !important; }
 
-    /* Captcha */
-    #zsCaptcha img { border-radius: 6px; margin-top: 8px; }
-
-    /* Powered-by footer */
+    /* Powered-by */
     .wb_FtCon {
       justify-content: flex-start !important;
       margin-top: 20px !important;
-      color: #718096 !important;
       font-size: 12px !important;
     }
     .wb_FtCon span { color: #718096; font-family: 'Inter', sans-serif; }
@@ -299,6 +282,8 @@
       .form-card-body { padding: 24px 16px 20px; }
       .form-card-header { padding: 16px 18px; }
       nav { padding: 0 16px; }
+      #zohoSupportWebToCase input.wb_cusInput { width: 100% !important; display: block !important; }
+      .wb_selectDate { width: 60px !important; }
     }
   </style>
 </head>
@@ -332,110 +317,101 @@
         </div>
         <div>
           <h2>Booking Request Form</h2>
-          <p>All fields marked with a red border are required</p>
+          <p>Fields with a green border are required</p>
         </div>
       </div>
 
       <div class="form-card-body">
 
-        <!-- ══ ZOHO FORM ══ -->
-        <div id='zohoSupportWebToCase' align='center'>
-          <form name='zsWebToCase_1333745000000420191' id='zsWebToCase_1333745000000420191'
-            action='https://desk.zoho.com/support/WebToCase' method='POST'
-            onSubmit='return zsValidateMandatoryFields()' enctype='multipart/form-data'>
+        <!-- ZOHO FORM (no captcha) -->
+        <div id="zohoSupportWebToCase" align="center">
+          <form name="zsWebToCase_1333745000000420191" id="zsWebToCase_1333745000000420191"
+            action="https://desk.zoho.com/support/WebToCase" method="POST"
+            onsubmit="return zsValidateMandatoryFields()" enctype="multipart/form-data">
 
-            <input type='hidden' name='xnQsjsdp' value='edbsn089bd48e8688854168d4f2929eb3e099'/>
-            <input type='hidden' name='xmIwtLD' value='edbsn9fe83cfaa056a63ce9e36e1e7f0dc86c0107f1baf9201cadae593200a561815b'/>
-            <input type='hidden' name='xJdfEaS' value=''/>
-            <input type='hidden' name='actionType' value='Q2FzZXM='/>
-            <input type="hidden" id="property(module)" value="Cases"/>
-            <input type="hidden" id="dependent_field_values_Cases" value="{&#34;JSON_VALUES&#34;:{},&#34;JSON_SELECT_VALUES&#34;:{},&#34;JSON_MAP_DEP_LABELS&#34;:[]}"/>
-            <input type='hidden' name='returnURL' value='https://go-secure-zeta.vercel.app'/>
+            <input type="hidden" name="xnQsjsdp" value="edbsn089bd48e8688854168d4f2929eb3e099" />
+            <input type="hidden" name="xmIwtLD"  value="edbsn9fe83cfaa056a63ce9e36e1e7f0dc86c0107f1baf9201cadae593200a561815b" />
+            <input type="hidden" name="xJdfEaS"  value="" />
+            <input type="hidden" name="actionType" value="Q2FzZXM=" />
+            <input type="hidden" id="property(module)" value="Cases" />
+            <input type="hidden" id="dependent_field_values_Cases" value="{&#34;JSON_VALUES&#34;:{},&#34;JSON_SELECT_VALUES&#34;:{},&#34;JSON_MAP_DEP_LABELS&#34;:[]}" />
+            <input type="hidden" name="returnURL" value="https://go-secure-zeta.vercel.app" />
 
-            <table border='0' cellspacing='0' class='zsFormClass'>
-              <tr><td colspan='2' class='zsFontClass'><strong>Request a Driver - GoSecure</strong></td></tr>
+            <table border="0" cellspacing="0" class="zsFormClass">
+              <!-- Title row — hidden by CSS, kept for Zoho compatibility -->
+              <tr><td colspan="2" class="zsFontClass"><strong>Request a Driver - GoSecure</strong></td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                First Name&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='120' name='First Name' value='' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                First Name <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="120" name="First Name" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Last Name&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='120' name='Contact Name' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                Last Name <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="120" name="Contact Name" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Current Location&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='120' name='Current Location' value='' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                Current Location <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="120" name="Current Location" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Destination&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='120' name='Destination' value='' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                Destination <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="120" name="Destination" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Pickup Date &amp; Time&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='date' min='1000-01-01' max='9999-12-31' maxlength='20' name='Pickup Time' value='' class='dob-field wb_cusInput manfieldbdr'/>
-                <select name='Pickup Timehour' class='wb_selectDate manfieldbdr'>
-                  <option value='01'>01</option><option value='02'>02</option><option value='03'>03</option>
-                  <option value='04'>04</option><option value='05'>05</option><option value='06'>06</option>
-                  <option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>
-                  <option value='10'>10</option><option value='11'>11</option><option value='12'>12</option>
-                </select>&nbsp;<select name='Pickup Timeminute' class='wb_selectDate manfieldbdr'>
-                  <option value='00'>00</option><option value='05'>05</option><option value='10'>10</option>
-                  <option value='15'>15</option><option value='20'>20</option><option value='25'>25</option>
-                  <option value='30'>30</option><option value='35'>35</option><option value='40'>40</option>
-                  <option value='45'>45</option><option value='50'>50</option><option value='55'>55</option>
-                </select>&nbsp;<select name='Pickup Timeampm' class='wb_selectDate manfieldbdr'>
-                  <option value='AM'>AM</option><option value='PM'>PM</option>
+              <tr><td class="zsFontClass hleft">
+                Pickup Date &amp; Time <span class="wtcmanfield">*</span><br>
+                <input type="date" min="1000-01-01" max="9999-12-31" name="Pickup Time" value="" class="dob-field wb_cusInput manfieldbdr" />
+                <select name="Pickup Timehour" class="wb_selectDate manfieldbdr">
+                  <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+                  <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+                  <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+                  <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                </select>
+                <select name="Pickup Timeminute" class="wb_selectDate manfieldbdr">
+                  <option value="00">00</option><option value="05">05</option><option value="10">10</option>
+                  <option value="15">15</option><option value="20">20</option><option value="25">25</option>
+                  <option value="30">30</option><option value="35">35</option><option value="40">40</option>
+                  <option value="45">45</option><option value="50">50</option><option value="55">55</option>
+                </select>
+                <select name="Pickup Timeampm" class="wb_selectDate manfieldbdr">
+                  <option value="AM">AM</option><option value="PM">PM</option>
                 </select>
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Car Type&nbsp;<span class='wtcmanfield'>*</span><br>
-                <select name='CarType' value='' class='manfieldbdr' onchange="setDependent(this, false)" id='CASECF4'>
-                  <option value='Manual'>Manual</option>
-                  <option value='Automatic'>Automatic</option>
+              <tr><td class="zsFontClass hleft">
+                Car Type <span class="wtcmanfield">*</span><br>
+                <select name="CarType" class="manfieldbdr" onchange="setDependent(this, false)" id="CASECF4">
+                  <option value="Manual">Manual</option>
+                  <option value="Automatic">Automatic</option>
                 </select>
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Email&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='120' name='Email' value='' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                Email <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="120" name="Email" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass hleft' width='25%'>
-                Subject&nbsp;<span class='wtcmanfield'>*</span><br>
-                <input type='text' maxlength='255' name='Subject' value='' class='manfieldbdr'/>
+              <tr><td class="zsFontClass hleft">
+                Subject <span class="wtcmanfield">*</span><br>
+                <input type="text" maxlength="255" name="Subject" value="" class="manfieldbdr" />
               </td></tr>
 
-              <tr><td nowrap class='zsFontClass' width='25%'>
-                Captcha&nbsp;
-                <div id='zsCaptchaLoading'><strong>Loading...</strong></div>
-                <div id='zsCaptcha' style='display:none;'>
-                  <img src='#' id='zsCaptchaUrl' name="zsCaptchaImage">
-                  <a href='javascript:;' style='color:#00A86B; cursor:pointer; margin-left:10px; vertical-align:middle; text-decoration:none;' class='zsFontClass' onclick='zsRegenerateCaptcha()'>Refresh</a>
-                </div>
-                <div>
-                  <input type='text' name='zsWebFormCaptchaWord'/>
-                  <input type='hidden' name='zsCaptchaSrc' value=''/>
-                </div>
-              </td></tr>
-
-              <tr><td style='padding: 8px 0 0 0 !important;' colspan='2' align='center' width='25%'>
-                <input type='submit' id="zsSubmitButton_1333745000000420191" class='zsFontClass' value='Request Driver'>
+              <tr><td style="padding: 8px 0 0 0 !important;" colspan="2" align="center">
+                <input type="submit" id="zsSubmitButton_1333745000000420191" class="zsFontClass" value="Request Driver" />
                 &nbsp;&nbsp;
-                <input type='button' class='zsFontClass' value='Reset' onclick="zsResetWebForm('1333745000000420191')">
+                <input type="button" class="zsFontClass" value="Reset" onclick="zsResetWebForm('1333745000000420191')" />
               </td></tr>
 
-              <tr><td width='25%' align='left'></td>
-                <td style='padding: 0px 5px;' align='left' width='75%'>
-                  <div class='wb_FtCon wb_common'>
+              <tr>
+                <td width="25%" align="left"></td>
+                <td style="padding: 0 5px;" align="left" width="75%">
+                  <div class="wb_FtCon wb_common">
                     <span>powered by&nbsp;</span>
-                    <a target='_blank' rel='noopener noreferrer' href='https://zoho.com/desk' class='wb_logoCon'>
-                      <img class='wb_logo' src='https://static.zohocdn.com/zohodeskstatic/app/images/portalLogo.de847024ebc0131731a3.png' />
+                    <a target="_blank" rel="noopener noreferrer" href="https://zoho.com/desk" class="wb_logoCon">
+                      <img class="wb_logo" src="https://static.zohocdn.com/zohodeskstatic/app/images/portalLogo.de847024ebc0131731a3.png" alt="Zoho Desk" />
                     </a>
                   </div>
                 </td>
@@ -443,7 +419,7 @@
             </table>
           </form>
         </div>
-        <!-- ══ END ZOHO FORM ══ -->
+        <!-- END ZOHO FORM -->
 
       </div>
     </div>
@@ -466,206 +442,143 @@
   </div>
 
   <script>
+    /* ── Zoho dependency helpers (unchanged from Zoho's generated code) ── */
     function trimBoth(str) { return jQuery.trim(str); }
 
     function setAllDependancyFieldsMapping() {
-      var mapDependancyLabels = getMapDependenySelectValues(jQuery("[id='property(module)']").val(), "JSON_MAP_DEP_LABELS");
-      if (mapDependancyLabels) {
-        for (var i = 0; i < mapDependancyLabels.length; i++) {
-          var label = mapDependancyLabels[i];
-          var obj = document.forms['zsWebToCase_1333745000000420191'][label];
+      var labels = getMapDependenySelectValues(jQuery("[id='property(module)']").val(), "JSON_MAP_DEP_LABELS");
+      if (labels) {
+        for (var i = 0; i < labels.length; i++) {
+          var obj = document.forms['zsWebToCase_1333745000000420191'][labels[i]];
           if (obj) setDependent(obj, true);
         }
       }
     }
 
     function getMapDependenySelectValues(module, key) {
-      var dependencyObj = jQuery.parseJSON(jQuery("[id='dependent_field_values_" + module + "']").val());
-      if (dependencyObj == undefined) return dependencyObj;
-      return dependencyObj[key];
+      var dep = jQuery.parseJSON(jQuery("[id='dependent_field_values_" + module + "']").val());
+      return dep ? dep[key] : dep;
     }
 
     function setDependent(obj, isload) {
       var name = obj.id || (obj[0] && obj[0].id) || "";
       var module = jQuery("[id='property(module)']").val();
-      var val = "";
       var myObject = getMapDependenySelectValues(module, "JSON_VALUES");
-      if (myObject != undefined) val = myObject[name];
+      var val = myObject ? myObject[name] : "";
       var mySelObject = getMapDependenySelectValues(module, "JSON_SELECT_VALUES");
-      if (val != null && val != "" && val != "null" && mySelObject) {
-        var fields = val;
-        for (var i in fields) {
-          if (fields.hasOwnProperty(i)) {
-            var label = i;
-            if (label.indexOf(")") > -1) label = label.replace(/\)/g, '_____');
-            if (label.indexOf("(") > -1) label = label.replace(/\(/g, '____');
-            if (label.indexOf(".") > -1) label = label.replace(/\./g, '___');
-            var depObj = document.forms['zsWebToCase_1333745000000420191'][label];
-            if (depObj && depObj.options) {
-              var mapValues = "";
-              var selected_val = depObj.value;
-              var depLen = depObj.options.length - 1;
-              for (var n = depLen; n >= 0; n--) {
-                if (depObj.options[n].selected) {
-                  if (mapValues == "") mapValues = depObj.options[n].value;
-                  else mapValues = mapValues + ";;;" + depObj.options[n].value;
-                }
-              }
-              depObj.value = "";
-              var selectValues = mySelObject[label];
-              for (var k in fields[i]) {
-                var rat = k;
-                if (rat == "-None-") rat = "";
-                if (rat == trimBoth(obj.value)) {
-                  depObj.length = 0;
-                  var depvalues = fields[i][k];
-                  for (var j = 0; j <= depvalues.length - 1; j++) {
-                    var optionElement = document.createElement("OPTION");
-                    var displayValue = depvalues[j];
-                    var actualValue = displayValue;
-                    if (actualValue == "-None-") { optionElement.value = ""; displayValue = "-None-"; }
-                    else optionElement.value = actualValue;
-                    optionElement.text = displayValue;
-                    if (mapValues != undefined) {
-                      var mapValue = mapValues.split(";;;");
-                      for (var p = 0; p < mapValue.length; p++) {
-                        if (actualValue == mapValue[p]) optionElement.selected = true;
-                      }
-                    }
-                    depObj.options.add(optionElement);
-                  }
-                }
-              }
-              if (!isload) setDependent(depObj, false);
+      if (val && val !== "null" && mySelObject) {
+        for (var i in val) {
+          if (!val.hasOwnProperty(i)) continue;
+          var label = i.replace(/\)/g, '_____').replace(/\(/g, '____').replace(/\./g, '___');
+          var depObj = document.forms['zsWebToCase_1333745000000420191'][label];
+          if (depObj && depObj.options) {
+            var mapValues = "";
+            var sel = depObj.value;
+            for (var n = depObj.options.length - 1; n >= 0; n--) {
+              if (depObj.options[n].selected) mapValues += (mapValues ? ";;;" : "") + depObj.options[n].value;
             }
+            depObj.value = "";
+            for (var k in val[i]) {
+              var rat = k === "-None-" ? "" : k;
+              if (rat === trimBoth(obj.value)) {
+                depObj.length = 0;
+                val[i][k].forEach(function(dv) {
+                  var opt = document.createElement("OPTION");
+                  opt.value = dv === "-None-" ? "" : dv;
+                  opt.text  = dv;
+                  if (mapValues.split(";;;").indexOf(opt.value) > -1) opt.selected = true;
+                  depObj.options.add(opt);
+                });
+              }
+            }
+            if (!isload) setDependent(depObj, false);
           }
         }
       }
     }
 
-    var zsWebFormMandatoryFields = ["First Name", "Contact Name", "Current Location", "Destination", "Pickup Time", "CarType", "Email", "Subject"];
-    var zsFieldsDisplayLabelArray = ["First Name", "Last Name", "Current Location", "Destination", "Pickup Time", "Car Type", "Email", "Subject"];
+    /* ── Validation (no captcha check) ── */
+    var zsWebFormMandatoryFields  = ["First Name","Contact Name","Current Location","Destination","Pickup Time","CarType","Email","Subject"];
+    var zsFieldsDisplayLabelArray = ["First Name","Last Name","Current Location","Destination","Pickup Time","Car Type","Email","Subject"];
 
     function reformatAllDateFields() {
       document.querySelectorAll('.dob-field').forEach(function(field) {
         if (field.value && field.value.includes('-')) {
-          var parts = field.value.split('-');
-          if (parts.length === 3) {
-            var yyyy = parts[0], mm = parts[1], dd = parts[2];
-            field.type = 'text';
-            field.value = dd + '/' + mm + '/' + yyyy;
-          }
+          var p = field.value.split('-');
+          if (p.length === 3) { field.type = 'text'; field.value = p[2] + '/' + p[1] + '/' + p[0]; }
         }
       });
     }
 
     function zsValidateMandatoryFields() {
-      var isError = 0;
-      for (var index = 0; index < zsWebFormMandatoryFields.length; index++) {
-        isError = 0;
-        var fieldObject = document.forms['zsWebToCase_1333745000000420191'][zsWebFormMandatoryFields[index]];
-        if (fieldObject) {
-          if (((fieldObject.value).replace(/^\s+|\s+$/g, '')).length == 0) {
-            alert(zsFieldsDisplayLabelArray[index] + ' cannot be empty');
-            fieldObject.focus();
-            return false;
-          } else if (fieldObject.name == 'Email') {
-            if (!fieldObject.value.match(/^([\w_][\w\-_.+\'&]*)@(?=.{4,256}$)(([\w]+)([\-_]*[\w])*[\.])+[a-zA-Z]{2,22}$/)) {
-              alert('Enter a valid email address');
-              fieldObject.focus();
-              return false;
-            }
-          }
-          if (fieldObject.nodeName == 'SELECT' && fieldObject.options[fieldObject.selectedIndex].value == '-None-') {
-            alert(zsFieldsDisplayLabelArray[index] + ' cannot be none');
-            fieldObject.focus();
-            return false;
-          }
+      for (var i = 0; i < zsWebFormMandatoryFields.length; i++) {
+        var field = document.forms['zsWebToCase_1333745000000420191'][zsWebFormMandatoryFields[i]];
+        if (!field) continue;
+        if (field.value.replace(/^\s+|\s+$/g, '').length === 0) {
+          alert(zsFieldsDisplayLabelArray[i] + ' cannot be empty');
+          field.focus();
+          return false;
         }
-      }
-      if (isError == 0) {
-        if (document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'].value.replace(/^\s+|\s+$/g, '').length == 0) {
-          alert('Please enter the captcha code.');
-          document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'].focus();
+        if (field.name === 'Email' && !field.value.match(/^([\w_][\w\-_.+'&]*)@(?=.{4,256}$)(([\w]+)([\-_]*[\w])*\.)+[a-zA-Z]{2,22}$/)) {
+          alert('Enter a valid email address');
+          field.focus();
+          return false;
+        }
+        if (field.nodeName === 'SELECT' && field.options[field.selectedIndex].value === '-None-') {
+          alert(zsFieldsDisplayLabelArray[i] + ' cannot be none');
+          field.focus();
           return false;
         }
       }
-      if (isError == 0) {
-        reformatAllDateFields();
-        document.getElementById('zsSubmitButton_1333745000000420191').setAttribute('disabled', 'disabled');
-      }
+      reformatAllDateFields();
+      document.getElementById('zsSubmitButton_1333745000000420191').setAttribute('disabled', 'disabled');
     }
 
-    function zsShowCaptcha() {
-      jQuery('#zsCaptchaLoading').hide();
-      jQuery('#zsCaptcha').show();
+    /* ── Auto-fill current date & time ── */
+    function setDefaultDateTime() {
+      var now  = new Date();
+      var form = document.forms['zsWebToCase_1333745000000420191'];
+
+      // Date: YYYY-MM-DD
+      var dateVal = now.getFullYear()
+        + '-' + String(now.getMonth() + 1).padStart(2, '0')
+        + '-' + String(now.getDate()).padStart(2, '0');
+      if (form['Pickup Time']) form['Pickup Time'].value = dateVal;
+
+      // Hour (12-hr format)
+      var h24  = now.getHours();
+      var ampm = h24 >= 12 ? 'PM' : 'AM';
+      var h12  = String(h24 % 12 || 12).padStart(2, '0');
+      if (form['Pickup Timehour']) form['Pickup Timehour'].value = h12;
+
+      // Minute rounded to nearest 5
+      var min5 = String(Math.floor(now.getMinutes() / 5) * 5).padStart(2, '0');
+      if (form['Pickup Timeminute']) form['Pickup Timeminute'].value = min5;
+
+      // AM / PM
+      if (form['Pickup Timeampm']) form['Pickup Timeampm'].value = ampm;
     }
 
-    function zsRegenerateCaptcha() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'https://desk.zoho.com/support/GenerateCaptcha?action=getNewCaptcha&_=' + new Date().getTime(), true);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          try {
-            var response = JSON.parse(xhr.responseText);
-            jQuery('#zsCaptchaUrl').load(zsShowCaptcha);
-            document.getElementById('zsCaptchaUrl').src = response.captchaUrl;
-            document.getElementsByName('xJdfEaS')[0].value = response.captchaDigest;
-          } catch(e) {}
-        }
-      };
-      xhr.send();
-    }
-
+    /* ── Init ── */
     function zsInitForm() {
-      setAllDependancyFieldsMapping();
       document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
-      document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'].value = '';
-      zsRegenerateCaptcha();
+      setAllDependancyFieldsMapping();
       setDefaultDateTime();
     }
 
-    function setDefaultDateTime() {
-      var now = new Date();
-
-      // Date field — YYYY-MM-DD
-      var yyyy = now.getFullYear();
-      var mm   = String(now.getMonth() + 1).padStart(2, '0');
-      var dd   = String(now.getDate()).padStart(2, '0');
-      var dateField = document.forms['zsWebToCase_1333745000000420191']['Pickup Time'];
-      if (dateField) dateField.value = yyyy + '-' + mm + '-' + dd;
-
-      // Hour (12-hr)
-      var hours24 = now.getHours();
-      var ampm    = hours24 >= 12 ? 'PM' : 'AM';
-      var hours12 = hours24 % 12 || 12;
-      var hrStr   = String(hours12).padStart(2, '0');
-      var hourSel = document.forms['zsWebToCase_1333745000000420191']['Pickup Timehour'];
-      if (hourSel) hourSel.value = hrStr;
-
-      // Minute — round down to nearest 5
-      var mins    = now.getMinutes();
-      var minRounded = String(Math.floor(mins / 5) * 5).padStart(2, '0');
-      var minSel  = document.forms['zsWebToCase_1333745000000420191']['Pickup Timeminute'];
-      if (minSel) minSel.value = minRounded;
-
-      // AM/PM
-      var ampmSel = document.forms['zsWebToCase_1333745000000420191']['Pickup Timeampm'];
-      if (ampmSel) ampmSel.value = ampm;
-    }
-
-    // Run init as soon as DOM is ready — the script is at end of body so DOM is already parsed,
-    // but we wait for full load to ensure jQuery (loaded async from zohocdn) is available.
-    if (document.readyState === 'complete') {
-      zsInitForm();
+    // Script is at end of <body> so DOM is already parsed.
+    // Use DOMContentLoaded if still loading, otherwise run immediately.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', zsInitForm);
     } else {
-      window.addEventListener('load', zsInitForm);
+      zsInitForm();
     }
 
+    // Re-enable submit & restore date if user hits back button (bfcache)
     window.addEventListener('pageshow', function(e) {
       if (e.persisted) {
         document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
-        zsRegenerateCaptcha();
+        setDefaultDateTime();
       }
     });
 
@@ -674,7 +587,6 @@
       document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
       setAllDependancyFieldsMapping();
       setDefaultDateTime();
-      zsRegenerateCaptcha();
     }
   </script>
 </body>
