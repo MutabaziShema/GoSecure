@@ -11,7 +11,7 @@ const icons = {
 const STATS = [
   { label: 'Verified drivers', icon: 'verified', dark: true,  desc: 'ID & background checked' },
   { label: 'Officer-managed', icon: 'officer',  dark: false, desc: 'Human-controlled dispatch' },
-  { label: 'WhatsApp-first',  icon: 'whatsapp', dark: true,  desc: 'No app download needed' },
+  { label: 'Easy booking',    icon: 'whatsapp', dark: true,  desc: 'No app download needed' },
   { label: 'Kigali-based',    icon: 'location', dark: false, desc: 'Serving Rwanda' },
 ]
 

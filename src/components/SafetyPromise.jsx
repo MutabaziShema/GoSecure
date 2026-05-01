@@ -4,7 +4,7 @@ const PROMISES = [
   'We verify drivers before assigning them',
   'We confirm trip details before dispatch',
   'We keep requests visible to our operations team',
-  'We provide WhatsApp and hotline support',
+  'We provide online form and hotline support',
   'We record every request for accountability',
 ]
 

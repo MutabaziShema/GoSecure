@@ -3,7 +3,7 @@ import SectionHeading from './SectionHeading'
 import { ACCENT, NAVY, OFFWHITE, BORDER, MUTED } from '../constants'
 
 const ITEMS = [
-  { q: 'Do I need to download an app?', a: 'No. You can book through WhatsApp or by calling our hotline. No app download is required.' },
+  { q: 'Do I need to download an app?', a: 'No. You can book through our online form or by calling our hotline. No app download is required.' },
   { q: 'Does the driver come with a car?', a: 'No. GoSecure provides a trusted driver to drive you in your own car. You keep control of your vehicle.' },
   { q: 'Can I book immediately?', a: 'Yes, you can request a driver anytime. Availability depends on driver location and confirmation by our operations team.' },
   { q: 'Are drivers verified?', a: 'Yes. All drivers are reviewed and verified before being assigned to any customer request.' },

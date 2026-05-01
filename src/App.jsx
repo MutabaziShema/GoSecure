@@ -24,7 +24,7 @@ export default function App() {
         <HowItWorks />
         <WhyGoSecure />
         <UseCases onBookNow={openModal} />
-        <BookingForm />
+        <BookingForm onBookNow={openModal} />
         <About />
         <SafetyPromise />
         <FAQ />

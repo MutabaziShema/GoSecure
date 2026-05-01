@@ -65,11 +65,11 @@ export default function Footer({ onBookNow }) {
           {/* Book Now */}
           <div>
             <h4 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 14, color: '#fff', margin: '0 0 20px', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Book now</h4>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginBottom: 20 }}>Ready for a trusted driver? Book via WhatsApp or call our hotline anytime.</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginBottom: 20 }}>Ready for a trusted driver? Book online or call our hotline anytime.</p>
             <button onClick={onBookNow} style={{ display: 'flex', alignItems: 'center', gap: 8, background: ACCENT, color: '#fff', padding: '12px 20px', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, border: 'none', cursor: 'pointer', marginBottom: 12, width: '100%', justifyContent: 'center', boxSizing: 'border-box' }}
               onMouseEnter={e => (e.currentTarget.style.background = '#009960')}
               onMouseLeave={e => (e.currentTarget.style.background = ACCENT)}>
-              Book on WhatsApp
+              Book a Driver
             </button>
             <a href={`tel:${HOTLINE}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', padding: '12px 20px', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.12)')}
