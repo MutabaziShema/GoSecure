@@ -78,7 +78,7 @@ function HeroVisualCard() {
       {/* Floating chips */}
       <div style={{ position: 'absolute', top: -18, right: -18, background: '#fff', borderRadius: 14, padding: '10px 16px', boxShadow: '0 8px 30px rgba(11,31,58,0.12)', display: 'flex', alignItems: 'center', gap: 8, zIndex: 3 }}>
         <div style={{ width: 8, height: 8, borderRadius: '50%', background: GOLD }} />
-        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, fontWeight: 600, color: NAVY }}>Est. 15 min</span>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, fontWeight: 600, color: NAVY }}>Est. 5 min</span>
       </div>
       <div style={{ position: 'absolute', bottom: -18, left: -18, background: '#fff', borderRadius: 14, padding: '10px 16px', boxShadow: '0 8px 30px rgba(11,31,58,0.12)', display: 'flex', alignItems: 'center', gap: 8, zIndex: 3 }}>
         <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(0,168,107,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
