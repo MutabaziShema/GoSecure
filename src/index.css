@@ -1,0 +1,63 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: #F7F9FC;
+  color: #1F2933;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; }
+button, input, select, textarea { font-family: inherit; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .desktop-nav { display: none !important; }
+  .hamburger-btn { display: flex !important; }
+}
+@media (min-width: 769px) {
+  .mobile-menu { display: none !important; }
+}
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; padding: 60px 24px !important; }
+  .hero-visual { order: -1; }
+  .steps-grid { grid-template-columns: 1fr 1fr !important; }
+  .connector-line { display: none !important; }
+  .features-grid { grid-template-columns: 1fr 1fr !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 768px) {
+  .usecases-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .about-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+}
+@media (max-width: 700px) {
+  .safety-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr !important; }
+  .booking-form-card { padding: 28px 20px !important; }
+}
+@media (max-width: 520px) {
+  .steps-grid { grid-template-columns: 1fr !important; }
+  .features-grid { grid-template-columns: 1fr !important; }
+  .footer-grid { grid-template-columns: 1fr !important; }
+  .hero-btns { flex-direction: column !important; }
+  .hero-btns a, .hero-btns button { width: 100% !important; justify-content: center !important; }
+}
+
+/* ── Transitions ── */
+* { transition-property: color, background-color, border-color, box-shadow, transform, opacity; transition-duration: 0.2s; }
+input, textarea, select { transition: border-color 0.2s, box-shadow 0.2s !important; }
+
+/* ── Focus ── */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid #00A86B;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* ── Honeypot ── */
+.hp-field { display: none !important; }
