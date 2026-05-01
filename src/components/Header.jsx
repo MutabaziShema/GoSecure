@@ -45,7 +45,7 @@ export default function Header({ onBookNow }) {
 
         {/* Logo */}
         <a href="#home" onClick={(e) => handleNav(e, '#home')} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
-          <img src={logo} alt="GoSecure — Safe hands for every journey" style={{ height: 40, width: 'auto' }} />
+          <img src={logo} alt="GoSecure — Safe hands for every journey" style={{ height: 50, width: 'auto' }} />
         </a>
 
         {/* Desktop nav */}

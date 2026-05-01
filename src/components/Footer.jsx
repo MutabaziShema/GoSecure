@@ -25,7 +25,7 @@ export default function Footer({ onBookNow }) {
 
           {/* Brand */}
           <div>
-            <img src={logo} alt="GoSecure" style={{ height: 40, width: 'auto', marginBottom: 20, filter: 'brightness(0) invert(1)' }} />
+            <img src={logo} alt="GoSecure" style={{ height: 50, width: 'auto', marginBottom: 20, filter: 'brightness(0) invert(1)' }} />
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: '0 0 24px', maxWidth: 280 }}>
               Trusted driver-dispatch service connecting customers with verified drivers. Human-controlled. Kigali-based.
             </p>
