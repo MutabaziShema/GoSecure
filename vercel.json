@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.zohocdn.com; style-src 'unsafe-inline'; img-src * data:; form-action https://desk.zoho.com; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.zohocdn.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src * data:; connect-src 'self' https://desk.zoho.com; form-action https://desk.zoho.com; frame-ancestors 'none';"
         }
       ]
     },

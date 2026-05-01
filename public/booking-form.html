@@ -274,6 +274,7 @@
       font-size: 12px !important;
     }
     .wb_FtCon span { color: #718096; font-family: 'Inter', sans-serif; }
+    .wb_logo { max-width: 60px !important; max-height: 20px !important; vertical-align: middle; }
 
     /* ── Trust badges ── */
     .trust-row {
@@ -465,17 +466,6 @@
   </div>
 
   <script>
-    window.addEventListener('pageshow', function () {
-      const submitButton = document.getElementById('zsSubmitButton_1333745000000420191');
-      if (submitButton) submitButton.removeAttribute('disabled');
-      const captchaTextField = document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'];
-      if (window.zsRegenerateCaptcha && captchaTextField.value) {
-        captchaTextField.value = '';
-        captchaTextField.focus();
-        zsRegenerateCaptcha();
-      }
-    });
-
     function trimBoth(str) { return jQuery.trim(str); }
 
     function setAllDependancyFieldsMapping() {
@@ -627,19 +617,64 @@
       xhr.send();
     }
 
-    document.addEventListener('readystatechange', function() {
-      if (document.readyState === 'complete' && window.zsRegenerateCaptcha) {
-        zsRegenerateCaptcha();
-      }
+    function zsInitForm() {
       setAllDependancyFieldsMapping();
       document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
       document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'].value = '';
+      zsRegenerateCaptcha();
+      setDefaultDateTime();
+    }
+
+    function setDefaultDateTime() {
+      var now = new Date();
+
+      // Date field — YYYY-MM-DD
+      var yyyy = now.getFullYear();
+      var mm   = String(now.getMonth() + 1).padStart(2, '0');
+      var dd   = String(now.getDate()).padStart(2, '0');
+      var dateField = document.forms['zsWebToCase_1333745000000420191']['Pickup Time'];
+      if (dateField) dateField.value = yyyy + '-' + mm + '-' + dd;
+
+      // Hour (12-hr)
+      var hours24 = now.getHours();
+      var ampm    = hours24 >= 12 ? 'PM' : 'AM';
+      var hours12 = hours24 % 12 || 12;
+      var hrStr   = String(hours12).padStart(2, '0');
+      var hourSel = document.forms['zsWebToCase_1333745000000420191']['Pickup Timehour'];
+      if (hourSel) hourSel.value = hrStr;
+
+      // Minute — round down to nearest 5
+      var mins    = now.getMinutes();
+      var minRounded = String(Math.floor(mins / 5) * 5).padStart(2, '0');
+      var minSel  = document.forms['zsWebToCase_1333745000000420191']['Pickup Timeminute'];
+      if (minSel) minSel.value = minRounded;
+
+      // AM/PM
+      var ampmSel = document.forms['zsWebToCase_1333745000000420191']['Pickup Timeampm'];
+      if (ampmSel) ampmSel.value = ampm;
+    }
+
+    // Run init as soon as DOM is ready — the script is at end of body so DOM is already parsed,
+    // but we wait for full load to ensure jQuery (loaded async from zohocdn) is available.
+    if (document.readyState === 'complete') {
+      zsInitForm();
+    } else {
+      window.addEventListener('load', zsInitForm);
+    }
+
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
+        zsRegenerateCaptcha();
+      }
     });
 
     function zsResetWebForm(webFormId) {
       document.forms['zsWebToCase_' + webFormId].reset();
       document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
       setAllDependancyFieldsMapping();
+      setDefaultDateTime();
+      zsRegenerateCaptcha();
     }
   </script>
 </body>
