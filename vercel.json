@@ -5,7 +5,7 @@
       "headers": [
         {
           "key": "X-Frame-Options",
-          "value": "DENY"
+          "value": "SAMEORIGIN"
         },
         {
           "key": "X-Content-Type-Options",
@@ -25,12 +25,13 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self' https://desk.zoho.com; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' https://static.zohocdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://static.zohocdn.com; connect-src 'self'; form-action 'self' https://desk.zoho.com; frame-src 'self'; frame-ancestors 'self';"
         }
       ]
     }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/booking-form.html", "destination": "/booking-form.html" },
+    { "source": "/((?!booking-form\\.html).*)", "destination": "/index.html" }
   ]
 }
