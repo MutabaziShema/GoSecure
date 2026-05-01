@@ -9,13 +9,8 @@ import SafetyPromise from './components/SafetyPromise'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 
-const ZOHO_FORM_URL = 'https://forms.zohopublic.com/shematresor19gm1/form/GoSecureRequestaDriver/formperma/U2JPzdBwlB5aC2wKa2x88mnIKBvL69OMlE9c_fbu7Mc'
-
 const openBooking = () => {
-  const w = 700, h = 648
-  const left = Math.round((screen.width  - w) / 2)
-  const top  = Math.round((screen.height - h) / 2)
-  window.open(ZOHO_FORM_URL, null, `width=${w},height=${h},left=${left},top=${top},toolbar=0,location=0,status=1,scrollbars=1,resizable=1`)
+  window.location.href = '/booking-form.html'
 }
 
 export default function App() {
