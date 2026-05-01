@@ -4,12 +4,8 @@
       "source": "/booking-form.html",
       "headers": [
         {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.zohocdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://static.zohocdn.com; form-action https://desk.zoho.com; frame-ancestors 'self';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.zohocdn.com; style-src 'unsafe-inline'; img-src * data:; form-action https://desk.zoho.com; frame-ancestors 'none';"
         }
       ]
     },
@@ -18,7 +14,7 @@
       "headers": [
         {
           "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
+          "value": "DENY"
         },
         {
           "key": "X-Content-Type-Options",
@@ -38,7 +34,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://static.zohocdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://static.zohocdn.com; connect-src 'self'; form-action 'self' https://desk.zoho.com; frame-src 'self'; frame-ancestors 'self';"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
         }
       ]
     }
@@ -46,6 +42,6 @@
   "rewrites": [
     { "source": "/booking-form.html", "destination": "/booking-form.html" },
     { "source": "/booking-form.js",   "destination": "/booking-form.js"   },
-    { "source": "/((?!booking-form).*)", "destination": "/index.html" }
+    { "source": "/(.*)",              "destination": "/index.html"         }
   ]
 }
