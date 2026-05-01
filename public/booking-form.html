@@ -1,218 +1,369 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book a Driver — GoSecure</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Book a Driver — GoSecure</title>
 
-  <!-- Zoho's jQuery — required for form validation -->
-  <script src='https://static.zohocdn.com/zohodeskstatic/app/js/jqueryandencoder.ef05974972bf3bca1b87.js'></script>
-  <!-- Form logic in external file (inline scripts blocked by CSP) -->
-  <script src='/booking-form.js'></script>
+<!-- ── GoSecure design overrides (CSS only) ── -->
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root {
+  --navy:   #0B1F3A;
+  --accent: #00A86B;
+  --border: #E5EAF0;
+  --off:    #F7F9FC;
+  --text:   #1F2933;
+  --muted:  #718096;
+}
+html, body {
+  margin: 0; padding: 8px 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: transparent;
+  color: var(--text);
+}
+/* Widen the form to fill the iframe */
+.zsFormClass { width: 100% !important; background: transparent !important; }
+/* Labels */
+.zsFontClass { font-family: 'Inter', sans-serif !important; font-size: 13px !important; color: var(--navy) !important; }
+/* Inputs, selects */
+#zohoSupportWebToCase input[type='text'],
+#zohoSupportWebToCase input[type='date'],
+#zohoSupportWebToCase select {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 8px !important;
+  background: var(--off) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  color: var(--text) !important;
+  outline: none !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+#zohoSupportWebToCase input[type='text']:focus,
+#zohoSupportWebToCase input[type='date']:focus,
+#zohoSupportWebToCase select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(0,168,107,0.1) !important;
+}
+#zohoSupportWebToCase select { cursor: pointer !important; }
+/* Left-column labels */
+#zohoSupportWebToCase td[width='25%'] { padding-right: 12px !important; white-space: nowrap; }
+/* Table cells */
+#zohoSupportWebToCase td { padding: 8px 4px !important; vertical-align: middle !important; }
+/* Submit button */
+#zsSubmitButton_1333745000000420191 {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 9px !important;
+  padding: 12px 32px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(0,168,107,0.3) !important;
+  transition: background 0.2s !important;
+}
+#zsSubmitButton_1333745000000420191:hover   { background: #009960 !important; }
+#zsSubmitButton_1333745000000420191:disabled { opacity: 0.72 !important; cursor: default !important; }
+/* Reset button */
+input[type='button'] {
+  background: var(--off) !important;
+  color: var(--navy) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 9px !important;
+  padding: 11px 24px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+/* Hide Subject row — value is hardcoded so it submits silently */
+tr:has(input[name='Subject']) { display: none !important; }
+/* Hide Zoho powered-by footer */
+.wb_FtCon { display: none !important; }
+/* Required field border hint */
+.manfieldbdr { border-left: 2px solid rgba(0,168,107,0.4) !important; }
+</style>
 
-  <style>
-    /* ── Reset ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<!-- Zoho's jQuery — must load before the inline script below -->
+<script src='https://static.zohocdn.com/zohodeskstatic/app/js/jqueryandencoder.ef05974972bf3bca1b87.js'></script>
 
-    /* ── GoSecure tokens ── */
-    :root {
-      --navy:   #0B1F3A;
-      --accent: #00A86B;
-      --gold:   #F5B84B;
-      --border: #E5EAF0;
-      --off:    #F7F9FC;
-      --text:   #1F2933;
-      --muted:  #718096;
-      --err:    #E53E3E;
+<!-- Exact Zoho script — no logic changes, only Markdown copy-paste artifacts fixed -->
+<script>
+window.addEventListener('pageshow', function () {
+  const submitButton = document.getElementById('zsSubmitButton_1333745000000420191');
+  if (submitButton) { submitButton.removeAttribute('disabled'); }
+  const captchaTextField = document.forms['zsWebToCase_1333745000000420191']['zsWebFormCaptchaWord'];
+  if (captchaTextField && window.zsRegenerateCaptcha && captchaTextField.value) {
+    captchaTextField.value = '';
+    captchaTextField.focus();
+    zsRegenerateCaptcha();
+  }
+});
+
+function trimBoth(str){ return jQuery.trim(str); }
+
+function setAllDependancyFieldsMapping(){
+  var mapDependancyLabels = getMapDependenySelectValues(jQuery("[id='property(module)']").val(), "JSON_MAP_DEP_LABELS");
+  if(mapDependancyLabels){
+    for(var i = 0; i < mapDependancyLabels.length; i++){
+      var label = mapDependancyLabels[i];
+      var obj = document.forms['zsWebToCase_1333745000000420191'][label];
+      if(obj){ setDependent(obj, true); }
     }
+  }
+}
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: transparent;
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.5;
+function getMapDependenySelectValues(module, key){
+  var dependencyObj = jQuery.parseJSON( jQuery("[id='dependent_field_values_" + module + "']").val() );
+  if(dependencyObj == undefined){ return dependencyObj; }
+  return dependencyObj[key];
+}
+
+function setDependent(obj, isload){
+  var name = obj.id || (obj[0] && obj[0].id) || "";
+  var module = jQuery("[id='property(module)']").val();
+  var val = "";
+  var myObject = getMapDependenySelectValues(module, "JSON_VALUES");
+  if(myObject != undefined){ val = myObject[name]; }
+  var mySelObject = getMapDependenySelectValues(module, "JSON_SELECT_VALUES");
+  if(val != null && val != "" && val != "null" && mySelObject){
+    var fields = val;
+    for(var i in fields){
+      if(fields.hasOwnProperty(i)){
+        var isDependent = false;
+        var label = i;
+        if(label.indexOf(")") > -1){ label = label.replace(/\)/g, '_____'); }
+        if(label.indexOf("(") > -1){ label = label.replace(/\(/g, '____'); }
+        if(label.indexOf(".") > -1){ label = label.replace(/\./g, '___'); }
+        var depObj = document.forms['zsWebToCase_1333745000000420191'][label];
+        if(depObj && depObj.options){
+          var mapValues = "";
+          var selected_val = depObj.value;
+          var depLen = depObj.options.length - 1;
+          for(var n = depLen; n >= 0; n--){
+            if(depObj.options[n].selected){
+              if(mapValues == ""){ mapValues = depObj.options[n].value; }
+              else { mapValues = mapValues + ";;;" + depObj.options[n].value; }
+            }
+          }
+          depObj.value = "";
+          var selectValues = mySelObject[label];
+          for(var k in values){
+            var rat = k;
+            if(rat == "-None-"){ rat = ""; }
+            if(rat == trimBoth(obj.value)){
+              isDependent = true;
+              depObj.length = 0;
+              var depvalues = values[k];
+              var depLen2 = depvalues.length - 1;
+              for(var j = 0; j <= depLen2; j++){
+                var optionElement = document.createElement("OPTION");
+                var displayValue = depvalues[j];
+                var actualValue = displayValue;
+                if(actualValue == "-None-"){ optionElement.value = ""; displayValue = "-None-"; }
+                else { optionElement.value = actualValue; }
+                optionElement.text = displayValue;
+                if(mapValues != undefined){
+                  var mapValue = mapValues.split(";;;");
+                  var len = mapValue.length;
+                  for(var p = 0; p < len; p++){
+                    if(actualValue == mapValue[p]){ optionElement.selected = true; }
+                  }
+                }
+                depObj.options.add(optionElement);
+              }
+            }
+          }
+          if(!isDependent){
+            depObj.length = 0;
+            var len2 = selectValues.length;
+            for(var j2 = 0; j2 < len2; j2++){
+              var actualValue2 = selectValues[j2];
+              var optionElement2 = document.createElement("OPTION");
+              if(actualValue2 == "-None-"){ optionElement2.value = ""; }
+              else { optionElement2.value = selectValues[j2]; }
+              optionElement2.text = selectValues[j2];
+              depObj.options.add(optionElement2);
+            }
+            depObj.value = selected_val;
+          }
+          if(!isload){ setDependent(depObj, false); }
+          var jdepObj = jQuery(depObj);
+          if(jdepObj.hasClass('select2-offscreen')){ jdepObj.select2("val", jdepObj.val()); }
+        }
+      }
     }
+  }
+}
 
-    /* ── Field rows ── */
-    .row        { margin-bottom: 14px; }
-    .row-2col   { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-    .pickup-row { display: grid; grid-template-columns: 1fr 64px 64px 64px; gap: 8px; }
+/* Mandatory fields — exact original Zoho array (Email required, Subject required) */
+var zsWebFormMandatoryFields = new Array("First Name","Contact Name","Current Location","Destination","Pickup Time","CarType","Email","Subject");
+var zsFieldsDisplayLabelArray = new Array("First Name","Last Name","Current Location","Destination","Pickup Time","CarType","Email","Subject");
 
-    label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--navy);
-      margin-bottom: 4px;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
+function reformatAllDateFields() {
+  const dateFields = document.querySelectorAll('.dob-field');
+  dateFields.forEach(field => {
+    if (field.value && field.value.includes('-')) {
+      const parts = field.value.split('-');
+      if (parts.length === 3) {
+        const [yyyy, mm, dd] = parts;
+        field.type = 'text';
+        field.value = `${dd}/${mm}/${yyyy}`;
+      }
     }
+  });
+}
 
-    .opt { font-weight: 400; text-transform: none; font-size: 11px; color: var(--muted); margin-left: 3px; }
-    .req { color: var(--err); margin-left: 2px; }
-
-    /* ── Inputs ── */
-    input[type='text'],
-    input[type='email'],
-    input[type='date'],
-    select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: var(--off);
-      font-family: inherit;
-      font-size: 13px;
-      color: var(--text);
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+function zsValidateMandatoryFields(){
+  var name = '';
+  var email = '';
+  var isError = 0;
+  for(var index = 0; index < zsWebFormMandatoryFields.length; index++){
+    isError = 0;
+    var fieldObject = document.forms['zsWebToCase_1333745000000420191'][zsWebFormMandatoryFields[index]];
+    if(fieldObject){
+      if(((fieldObject.value).replace(/^\s+|\s+$/g, '')).length == 0){
+        alert(zsFieldsDisplayLabelArray[index] + ' cannot be empty ');
+        fieldObject.focus();
+        isError = 1;
+        return false;
+      } else {
+        if(fieldObject.name == 'Email'){
+          if(!fieldObject.value.match(/^([\w_][\w\-_.+\'&]*)@(?=.{4,256}$)(([\w]+)([\-_]*[\w])*[\.])+[a-zA-Z]{2,22}$/)){
+            isError = 1;
+            alert('Enter a valid email-Id');
+            fieldObject.focus();
+            return false;
+          }
+        }
+      }
+      if(fieldObject.nodeName == 'SELECT'){
+        if(fieldObject.options[fieldObject.selectedIndex].value == '-None-'){
+          alert(zsFieldsDisplayLabelArray[index] + ' cannot be none');
+          fieldObject.focus();
+          isError = 1;
+          return false;
+        }
+      }
+      if(fieldObject.type == 'checkbox'){
+        if(fieldObject.checked == false){
+          alert('Please accept ' + zsFieldsDisplayLabelArray[index]);
+          fieldObject.focus();
+          isError = 1;
+          return false;
+        }
+      }
     }
+  }
+  if(isError == 0){
+    reformatAllDateFields();
+    document.getElementById('zsSubmitButton_1333745000000420191').setAttribute('disabled', 'disabled');
+  }
+}
 
-    input[type='text']:focus,
-    input[type='email']:focus,
-    input[type='date']:focus,
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,168,107,0.1);
-    }
+document.addEventListener('readystatechange', function(){
+  if(document.readyState === 'complete' && window.zsRegenerateCaptcha){
+    zsRegenerateCaptcha();
+  }
+  setAllDependancyFieldsMapping();
+  document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
+});
 
-    /* Dropdown arrow */
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230B1F3A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 28px;
-      cursor: pointer;
-    }
-
-    /* ── Submit button ── */
-    .submit-btn {
-      width: 100%;
-      padding: 13px 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,168,107,0.3);
-      transition: background 0.2s, box-shadow 0.2s;
-      margin-top: 6px;
-    }
-    .submit-btn:hover   { background: #009960; box-shadow: 0 6px 18px rgba(0,168,107,0.36); }
-    .submit-btn:disabled { opacity: 0.72; cursor: default; }
-
-    /* ── Footer note ── */
-    .foot-note {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    /* Hide Zoho branding */
-    .wb_FtCon { display: none !important; }
-  </style>
-
+function zsResetWebForm(webFormId){
+  document.forms['zsWebToCase_' + webFormId].reset();
+  document.getElementById('zsSubmitButton_1333745000000420191').removeAttribute('disabled');
+  setAllDependancyFieldsMapping();
+}
+</script>
 </head>
-<body>
 
-  <form
-    name='zsWebToCase_1333745000000420191'
-    id='zsWebToCase_1333745000000420191'
-    action='https://desk.zoho.com/support/WebToCase'
-    method='POST'
-    enctype='multipart/form-data'
-    target='_top'
-  >
-    <!-- ── Zoho auth — exact values, do not change ── -->
-    <input type='hidden' name='xnQsjsdp'  value='edbsn089bd48e8688854168d4f2929eb3e099'/>
-    <input type='hidden' name='xmIwtLD'   value='edbsn9fe83cfaa056a63ce9e36e1e7f0dc86c0107f1baf9201cadae593200a561815b'/>
-    <input type='hidden' name='xJdfEaS'   value=''/>
-    <input type='hidden' name='actionType' value='Q2FzZXM='/>
-    <input type='hidden' id='property(module)'              value='Cases'/>
-    <input type='hidden' id='dependent_field_values_Cases'  value='{"JSON_VALUES":{},"JSON_SELECT_VALUES":{},"JSON_MAP_DEP_LABELS":[]}'/>
-    <input type='hidden' name='returnURL' value='https://go-secure-zeta.vercel.app'/>
+<div id='zohoSupportWebToCase' align='center'>
+<form name='zsWebToCase_1333745000000420191' id='zsWebToCase_1333745000000420191'
+  action='https://desk.zoho.com/support/WebToCase'
+  method='POST'
+  onsubmit='return zsValidateMandatoryFields()'
+  enctype='multipart/form-data'
+  target='_top'>
 
-    <!-- Subject — hardcoded, never shown to the customer -->
-    <input type='hidden' name='Subject' value='Request Driver - GoSecure'/>
+  <input type='hidden' name='xnQsjsdp' value='edbsn089bd48e8688854168d4f2929eb3e099'/>
+  <input type='hidden' name='xmIwtLD'  value='edbsn9fe83cfaa056a63ce9e36e1e7f0dc86c0107f1baf9201cadae593200a561815b'/>
+  <input type='hidden' name='xJdfEaS'  value=''/>
+  <input type='hidden' name='actionType' value='Q2FzZXM='/>
+  <input type='hidden' id='property(module)' value='Cases'/>
+  <input type='hidden' id='dependent_field_values_Cases' value='{"JSON_VALUES":{},"JSON_SELECT_VALUES":{},"JSON_MAP_DEP_LABELS":[]}'/>
+  <input type='hidden' name='returnURL' value='https://go-secure-zeta.vercel.app'/>
 
-    <!-- ── Name ── -->
-    <div class='row-2col'>
-      <div>
-        <label>First name <span class='req'>*</span></label>
-        <input type='text' maxlength='120' name='First Name' placeholder='e.g. Jean-Paul'/>
-      </div>
-      <div>
-        <label>Last name <span class='req'>*</span></label>
-        <input type='text' maxlength='120' name='Contact Name' placeholder='e.g. Nzeyimana'/>
-      </div>
-    </div>
-
-    <!-- ── Location / Destination ── -->
-    <div class='row-2col'>
-      <div>
-        <label>Current location <span class='req'>*</span></label>
-        <input type='text' maxlength='120' name='Current Location' placeholder='e.g. Kacyiru, Kigali'/>
-      </div>
-      <div>
-        <label>Destination <span class='req'>*</span></label>
-        <input type='text' maxlength='120' name='Destination' placeholder='e.g. Nyamirambo, Kigali'/>
-      </div>
-    </div>
-
-    <!-- ── Pickup date & time ── -->
-    <div class='row'>
-      <label>Pickup date &amp; time <span class='req'>*</span></label>
-      <div class='pickup-row'>
-        <input type='date' min='1000-01-01' max='9999-12-31' name='Pickup Time' class='dob-field'/>
-        <select name='Pickup Timehour'>
+  <table border='0' cellspacing='0' class='zsFormClass'>
+    <tr><td colspan='2' class='zsFontClass'><strong>Request a Driver - GoSecure</strong></td></tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>First Name&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='120' name='First Name' value='' class='manfieldbdr'/></td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Last Name&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='120' name='Contact Name' class='manfieldbdr'/></td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Current Location&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='120' name='Current Location' value='' class='manfieldbdr'/></td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Destination&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='120' name='Destination' value='' class='manfieldbdr'/></td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Pickup Time&nbsp;&nbsp;</td>
+      <td align='left' width='75%'>
+        <input type='date' min='1000-01-01' max='9999-12-31' maxlength='20' name='Pickup Time' value='' class='dob-field wb_cusInput manfieldbdr'/>
+        <select name='Pickup Timehour' class='wb_selectDate manfieldbdr'>
           <option value='01'>01</option><option value='02'>02</option><option value='03'>03</option>
           <option value='04'>04</option><option value='05'>05</option><option value='06'>06</option>
           <option value='07'>07</option><option value='08'>08</option><option value='09'>09</option>
           <option value='10'>10</option><option value='11'>11</option><option value='12'>12</option>
-        </select>
-        <select name='Pickup Timeminute'>
+        </select>&nbsp;
+        <select name='Pickup Timeminute' class='wb_selectDate manfieldbdr'>
           <option value='00'>00</option><option value='05'>05</option><option value='10'>10</option>
           <option value='15'>15</option><option value='20'>20</option><option value='25'>25</option>
           <option value='30'>30</option><option value='35'>35</option><option value='40'>40</option>
           <option value='45'>45</option><option value='50'>50</option><option value='55'>55</option>
+        </select>&nbsp;
+        <select name='Pickup Timeampm' class='wb_selectDate manfieldbdr'>
+          <option value='AM'>AM</option><option value='PM'>PM</option>
         </select>
-        <select name='Pickup Timeampm'>
-          <option value='AM'>AM</option>
-          <option value='PM'>PM</option>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>CarType&nbsp;&nbsp;</td>
+      <td align='left' width='75%'>
+        <select name='CarType' value='' class='manfieldbdr' onchange="setDependent(this, false)" id='CASECF4'>
+          <option value='Manual'>Manual</option>
+          <option value='Autiomatic'>Automatic</option>
         </select>
-      </div>
-    </div>
+      </td>
+    </tr>
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Email&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='120' name='Email' value='' class='manfieldbdr'/></td>
+    </tr>
+    <!-- Subject: hardcoded value, hidden by CSS — passes validation automatically -->
+    <tr>
+      <td nowrap class='zsFontClass' width='25%' align='left'>Subject&nbsp;&nbsp;</td>
+      <td align='left' width='75%'><input type='text' maxlength='255' name='Subject' value='Request Driver - GoSecure' class='manfieldbdr'/></td>
+    </tr>
+    <tr>
+      <td style='padding: 11px 5px 0px 5px;' colspan='2' align='center' width='25%'>
+        <input type='submit' id='zsSubmitButton_1333745000000420191' class='zsFontClass' value='Request a Driver'>
+        &nbsp;&nbsp;
+        <input type='button' class='zsFontClass' value='Reset' onclick="zsResetWebForm('1333745000000420191')">
+      </td>
+    </tr>
+  </table>
+</form>
+</div>
 
-    <!-- ── Car type ── -->
-    <div class='row'>
-      <label>Car type <span class='req'>*</span></label>
-      <select name='CarType' id='CASECF4'>
-        <option value='Manual'>Manual</option>
-        <option value='Autiomatic'>Automatic</option>
-      </select>
-    </div>
-
-    <!-- ── Email (optional) ── -->
-    <div class='row'>
-      <label>Email <span class='opt'>(optional — for booking confirmation)</span></label>
-      <input type='text' maxlength='120' name='Email' placeholder='e.g. your@email.com'/>
-    </div>
-
-    <!-- ── Submit ── -->
-    <button type='submit' id='zsSubmitButton_1333745000000420191' class='submit-btn'>
-      Request a Driver
-    </button>
-
-    <p class='foot-note'>No app required. Your request goes straight to our operations team.</p>
-
-  </form>
-
-</body>
 </html>
